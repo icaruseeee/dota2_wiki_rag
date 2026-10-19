@@ -1,0 +1,25 @@
+{
+  "name": "dota2-wiki-rag",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "刀塔百科本地 RAG：pgvector 检索 + 重排 + 流式问答",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "chunk": "node src/chunk.mjs",
+    "ingest": "node src/ingest.mjs",
+    "eval": "node src/eval.mjs",
+    "gen:eval": "node src/gen-eval.mjs",
+    "eval:answer": "node src/eval-answer.mjs",
+    "serve": "node src/server.mjs",
+    "start": "./scripts/service.sh start",
+    "stop": "./scripts/service.sh stop",
+    "restart": "./scripts/service.sh restart",
+    "status": "./scripts/service.sh status"
+  },
+  "dependencies": {
+    "pg": "^8.23.1"
+  }
+}

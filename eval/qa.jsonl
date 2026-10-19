@@ -1,0 +1,115 @@
+{"id":"cast-001","type":"cast","question":"恐怖利刃的「怵潮」冷却时间是多少？","answer":"90","gold_doc":{"doc_type":"ability","source_id":425},"evidence":"冷却 90"}
+{"id":"cast-002","type":"cast","question":"矮人直升机的「追踪导弹」施法距离是多少？","answer":"1050","gold_doc":{"doc_type":"ability","source_id":5362},"evidence":"施法距离 1050"}
+{"id":"cast-003","type":"cast","question":"风行者的「强力击」施法距离是多少？","answer":"3000","gold_doc":{"doc_type":"ability","source_id":5131},"evidence":"施法距离 3000"}
+{"id":"cast-004","type":"cast","question":"编织者的「连击」施法距离是多少？","answer":"425","gold_doc":{"doc_type":"ability","source_id":5291},"evidence":"施法距离 425"}
+{"id":"cast-005","type":"cast","question":"工程师的「活性电击」施法距离是多少？","answer":"600","gold_doc":{"doc_type":"ability","source_id":886},"evidence":"施法距离 600"}
+{"id":"cast-006","type":"cast","question":"琼英碧灵的「唤魂」施法距离是多少？","answer":"600","gold_doc":{"doc_type":"ability","source_id":5752},"evidence":"施法距离 600"}
+{"id":"cast-007","type":"cast","question":"森海飞霞的「诱敌奇术」需要多少魔法？","answer":"60","gold_doc":{"doc_type":"ability","source_id":8107},"evidence":"魔法消耗 60"}
+{"id":"cast-008","type":"cast","question":"光之守卫的「炎阳之缚」需要多少魔法？","answer":"120","gold_doc":{"doc_type":"ability","source_id":1372},"evidence":"魔法消耗 120"}
+{"id":"cast-009","type":"cast","question":"干扰者的「动能栅栏」施法距离是多少？","answer":"1200","gold_doc":{"doc_type":"ability","source_id":1362},"evidence":"施法距离 1200"}
+{"id":"cast-010","type":"cast","question":"米拉娜的「天界箭袋」施法距离是多少？","answer":"630","gold_doc":{"doc_type":"ability","source_id":1739},"evidence":"施法距离 630"}
+{"id":"cast-011","type":"cast","question":"寒冬飞龙的「寒冬诅咒」施法距离是多少？","answer":"800","gold_doc":{"doc_type":"ability","source_id":5654},"evidence":"施法距离 800"}
+{"id":"cast-012","type":"cast","question":"干扰者的「静态风暴」施法距离是多少？","answer":"800","gold_doc":{"doc_type":"ability","source_id":5461},"evidence":"施法距离 800"}
+{"id":"cast-013","type":"cast","question":"司夜刺客的「神智爆裂」施法距离是多少？","answer":"800","gold_doc":{"doc_type":"ability","source_id":1104},"evidence":"施法距离 800"}
+{"id":"cast-014","type":"cast","question":"虚无之灵的「异化」需要多少魔法？","answer":"120","gold_doc":{"doc_type":"ability","source_id":6470},"evidence":"魔法消耗 120"}
+{"id":"cast-015","type":"cast","question":"恐怖利刃的「魔化」需要多少魔法？","answer":"100","gold_doc":{"doc_type":"ability","source_id":5621},"evidence":"魔法消耗 100"}
+{"id":"cast-016","type":"cast","question":"幻影刺客的「刀阵旋风」冷却时间是多少？","answer":"14","gold_doc":{"doc_type":"ability","source_id":662},"evidence":"冷却 14"}
+{"id":"cast-017","type":"cast","question":"美杜莎的「冷血动物」冷却时间是多少？","answer":"12","gold_doc":{"doc_type":"ability","source_id":701},"evidence":"冷却 12"}
+{"id":"cast-018","type":"cast","question":"圣堂刺客的「折光」需要多少魔法？","answer":"95","gold_doc":{"doc_type":"ability","source_id":5194},"evidence":"魔法消耗 95"}
+{"id":"cast-019","type":"cast","question":"拉席克的「虚无主义」冷却时间是多少？","answer":"25","gold_doc":{"doc_type":"ability","source_id":539},"evidence":"冷却 25"}
+{"id":"cast-020","type":"cast","question":"琼英碧灵的「幽魂子弹」冷却时间是多少？","answer":"12","gold_doc":{"doc_type":"ability","source_id":1785},"evidence":"冷却 12"}
+{"id":"cast-021","type":"cast","question":"马格纳斯的「长角抛物」需要多少魔法？","answer":"100","gold_doc":{"doc_type":"ability","source_id":649},"evidence":"魔法消耗 100"}
+{"id":"cast-022","type":"cast","question":"工程师的「雷区标识」施法距离是多少？","answer":"10","gold_doc":{"doc_type":"ability","source_id":5644},"evidence":"施法距离 10"}
+{"id":"cast-023","type":"cast","question":"德鲁伊的「缠绕之根」施法距离是多少？","answer":"700","gold_doc":{"doc_type":"ability","source_id":1684},"evidence":"施法距离 700"}
+{"id":"cast-024","type":"cast","question":"琼英碧灵的「幽魂子弹」需要多少魔法？","answer":"75","gold_doc":{"doc_type":"ability","source_id":1785},"evidence":"魔法消耗 75"}
+{"id":"cast-025","type":"cast","question":"剃刀的「静电连接」需要多少魔法？","answer":"65","gold_doc":{"doc_type":"ability","source_id":5083},"evidence":"魔法消耗 65"}
+{"id":"cast-026","type":"cast","question":"斯拉克的「暗影之舞」需要多少魔法？","answer":"100","gold_doc":{"doc_type":"ability","source_id":5497},"evidence":"魔法消耗 100"}
+{"id":"cast-027","type":"cast","question":"陈的「神圣劝化」施法距离是多少？","answer":"600","gold_doc":{"doc_type":"ability","source_id":5330},"evidence":"施法距离 600"}
+{"id":"cast-028","type":"cast","question":"修补匠的「折跃耀光」施法距离是多少？","answer":"700","gold_doc":{"doc_type":"ability","source_id":909},"evidence":"施法距离 700"}
+{"id":"cast-029","type":"cast","question":"宙斯的「雷云」需要多少魔法？","answer":"275","gold_doc":{"doc_type":"ability","source_id":6325},"evidence":"魔法消耗 275"}
+{"id":"cast-030","type":"cast","question":"修补匠的「激光」施法距离是多少？","answer":"600","gold_doc":{"doc_type":"ability","source_id":5150},"evidence":"施法距离 600"}
+{"id":"special-031","type":"special","question":"干扰者的「风雷之击」的打击间隔是多少？","answer":"2.0","gold_doc":{"doc_type":"ability","source_id":5458},"evidence":"打击间隔：2.0"}
+{"id":"special-032","type":"special","question":"上古巨神的「自然秩序」的基础魔抗减少是多少？","answer":"40 60 80 100","gold_doc":{"doc_type":"ability","source_id":5593},"evidence":"基础魔抗减少：40 60 80 100"}
+{"id":"special-033","type":"special","question":"朗戈的「疾步生风」的移动速度加成持续时间是多少？","answer":"1","gold_doc":{"doc_type":"ability","source_id":1664},"evidence":"移动速度加成持续时间：1"}
+{"id":"special-034","type":"special","question":"马格纳斯的「震荡波」的牵引时间是多少？","answer":"0.2","gold_doc":{"doc_type":"ability","source_id":5518},"evidence":"牵引时间：0.2"}
+{"id":"special-035","type":"special","question":"暗影恶魔的「暗影剧毒」的作用范围[受作用范围加成影响]是多少？","answer":"200","gold_doc":{"doc_type":"ability","source_id":5423},"evidence":"作用范围[受作用范围加成影响]：200"}
+{"id":"special-036","type":"special","question":"巨牙海民的「雪球」的冷却时间是多少？","answer":"21 19 17 15","gold_doc":{"doc_type":"ability","source_id":5566},"evidence":"冷却时间：21 19 17 15"}
+{"id":"special-037","type":"special","question":"电炎绝手的「猎枪」的最大伤害加成是多少？","answer":"35","gold_doc":{"doc_type":"ability","source_id":1782},"evidence":"最大伤害加成：35"}
+{"id":"special-038","type":"special","question":"赏金猎人的「暗影步」的隐身持续时间是多少？","answer":"20.0 25.0 30.0 35.0","gold_doc":{"doc_type":"ability","source_id":5287},"evidence":"隐身持续时间：20.0 25.0 30.0 35.0"}
+{"id":"special-039","type":"special","question":"宙斯的「雷击」的搜索范围[受作用范围加成影响]是多少？","answer":"325","gold_doc":{"doc_type":"ability","source_id":5111},"evidence":"搜索范围[受作用范围加成影响]：325"}
+{"id":"special-040","type":"special","question":"电炎绝手的「喷吐」的灼烧粘滞时间是多少？","answer":"1.0","gold_doc":{"doc_type":"ability","source_id":6486},"evidence":"灼烧粘滞时间：1.0"}
+{"id":"special-041","type":"special","question":"齐天大圣的「棒击大地」的作用宽度[受作用范围加成影响]是多少？","answer":"150","gold_doc":{"doc_type":"ability","source_id":5716},"evidence":"作用宽度[受作用范围加成影响]：150"}
+{"id":"special-042","type":"special","question":"宙斯的「雷云」的雷击间隔是多少？","answer":"2.5","gold_doc":{"doc_type":"ability","source_id":6325},"evidence":"雷击间隔：2.5"}
+{"id":"special-043","type":"special","question":"百戏大王的「驯兽术」的最终作用范围[受作用范围加成影响]是多少？","answer":"200","gold_doc":{"doc_type":"ability","source_id":352},"evidence":"最终作用范围[受作用范围加成影响]：200"}
+{"id":"special-044","type":"special","question":"维萨吉的「黄泉颤抖」的持续时间是多少？","answer":"5","gold_doc":{"doc_type":"ability","source_id":5480},"evidence":"持续时间：5"}
+{"id":"special-045","type":"special","question":"黑暗贤者的「离子外壳」的每秒伤害是多少？","answer":"30 50 70 90","gold_doc":{"doc_type":"ability","source_id":5256},"evidence":"每秒伤害：30 50 70 90"}
+{"id":"special-046","type":"special","question":"虚无之灵的「太虚之径」的半径[受作用范围加成影响]是多少？","answer":"170","gold_doc":{"doc_type":"ability","source_id":7705},"evidence":"半径[受作用范围加成影响]：170"}
+{"id":"special-047","type":"special","question":"小小的「不可逾越」的减速抗性的力量值系数是多少？","answer":"15","gold_doc":{"doc_type":"ability","source_id":1236},"evidence":"减速抗性的力量值系数：15"}
+{"id":"special-048","type":"special","question":"电炎绝手的「喷吐」的弹道宽度[受作用范围加成影响]是多少？","answer":"130","gold_doc":{"doc_type":"ability","source_id":6486},"evidence":"弹道宽度[受作用范围加成影响]：130"}
+{"id":"special-049","type":"special","question":"发条技师的「弹幕冲击」的持续时间是多少？","answer":"10.5 10.5 10.5 10.5","gold_doc":{"doc_type":"ability","source_id":5237},"evidence":"持续时间：10.5 10.5 10.5 10.5"}
+{"id":"special-050","type":"special","question":"食人魔魔法师的「嗜血术」的对己攻速加成是多少？","answer":"40 60 80 100","gold_doc":{"doc_type":"ability","source_id":5440},"evidence":"对己攻速加成：40 60 80 100"}
+{"id":"special-051","type":"special","question":"石鳞剑士的「甲盾冲击」的作用范围[受作用范围加成影响]是多少？","answer":"500","gold_doc":{"doc_type":"ability","source_id":6461},"evidence":"作用范围[受作用范围加成影响]：500"}
+{"id":"special-052","type":"special","question":"娜迦海妖的「激流」的作用范围[受作用范围加成影响]是多少？","answer":"300","gold_doc":{"doc_type":"ability","source_id":5469},"evidence":"作用范围[受作用范围加成影响]：300"}
+{"id":"special-053","type":"special","question":"混沌骑士的「混乱之箭」的最大眩晕是多少？","answer":"1.75 2.25 2.75 3.25","gold_doc":{"doc_type":"ability","source_id":5426},"evidence":"最大眩晕：1.75 2.25 2.75 3.25"}
+{"id":"special-054","type":"special","question":"石鳞剑士的「卷土重来」的跳跃恢复时间是多少？","answer":"0.25","gold_doc":{"doc_type":"ability","source_id":8027},"evidence":"跳跃恢复时间：0.25"}
+{"id":"special-055","type":"special","question":"哈斯卡的「心炎」的冷却时间是多少？","answer":"17 15 13 11","gold_doc":{"doc_type":"ability","source_id":7300},"evidence":"冷却时间：17 15 13 11"}
+{"id":"special-056","type":"special","question":"修补匠的「部署炮塔」的部署范围是多少？","answer":"250","gold_doc":{"doc_type":"ability","source_id":1744},"evidence":"部署范围：250"}
+{"id":"special-057","type":"special","question":"冥界亚龙的「幽冥剧毒」的持续时间是多少？","answer":"6.5 7 7.5 8","gold_doc":{"doc_type":"ability","source_id":5219},"evidence":"持续时间：6.5 7 7.5 8"}
+{"id":"special-058","type":"special","question":"瘟疫法师的「幽魂护罩」的持续时间是多少？","answer":"3 3.5 4 4.5","gold_doc":{"doc_type":"ability","source_id":1270},"evidence":"持续时间：3 3.5 4 4.5"}
+{"id":"special-059","type":"special","question":"马格纳斯的「两极反转」的冷却时间是多少？","answer":"115","gold_doc":{"doc_type":"ability","source_id":5521},"evidence":"冷却时间：115"}
+{"id":"special-060","type":"special","question":"死亡先知的「地穴虫群」的伤害是多少？","answer":"100 175 250 325","gold_doc":{"doc_type":"ability","source_id":5090},"evidence":"伤害：100 175 250 325"}
+{"id":"special-061","type":"special","question":"米波的「忽悠」的施法前摇是多少？","answer":"1.5","gold_doc":{"doc_type":"ability","source_id":5431},"evidence":"施法前摇：1.5"}
+{"id":"special-062","type":"special","question":"混沌骑士的「混沌之军」的幻象承受伤害是多少？","answer":"350","gold_doc":{"doc_type":"ability","source_id":5429},"evidence":"幻象承受伤害：350"}
+{"id":"special-063","type":"special","question":"斯拉达的「深海重击」的眩晕时间是多少？","answer":"1.0","gold_doc":{"doc_type":"ability","source_id":5116},"evidence":"眩晕时间：1.0"}
+{"id":"special-064","type":"special","question":"矮人直升机的「召唤飞弹」的导弹伤害是多少？","answer":"200 350 500","gold_doc":{"doc_type":"ability","source_id":5364},"evidence":"导弹伤害：200 350 500"}
+{"id":"special-065","type":"special","question":"蝙蝠骑士的「粘性燃油」的最大叠加层数是多少？","answer":"20","gold_doc":{"doc_type":"ability","source_id":5320},"evidence":"最大叠加层数：20"}
+{"id":"ownership-066","type":"ownership","question":"「刺针扫射」是哪个英雄的技能？","answer":"钢背兽","gold_doc":{"doc_type":"ability","source_id":5549},"evidence":"归属英雄：钢背兽"}
+{"id":"ownership-067","type":"ownership","question":"「尖刀戏」是哪个英雄的技能？","answer":"百戏大王","gold_doc":{"doc_type":"ability","source_id":386},"evidence":"归属英雄：百戏大王"}
+{"id":"ownership-068","type":"ownership","question":"「麻痹之咬」是哪个英雄的技能？","answer":"育母蜘蛛","gold_doc":{"doc_type":"ability","source_id":5281},"evidence":"归属英雄：育母蜘蛛"}
+{"id":"ownership-069","type":"ownership","question":"「异化」是哪个英雄的技能？","answer":"虚无之灵","gold_doc":{"doc_type":"ability","source_id":6470},"evidence":"归属英雄：虚无之灵"}
+{"id":"ownership-070","type":"ownership","question":"「气运之末」是哪个英雄的技能？","answer":"神谕者","gold_doc":{"doc_type":"ability","source_id":5637},"evidence":"归属英雄：神谕者"}
+{"id":"ownership-071","type":"ownership","question":"「冰封禁制」是哪个英雄的技能？","answer":"水晶室女","gold_doc":{"doc_type":"ability","source_id":5127},"evidence":"归属英雄：水晶室女"}
+{"id":"ownership-072","type":"ownership","question":"「多重施法」是哪个英雄的技能？","answer":"食人魔魔法师","gold_doc":{"doc_type":"ability","source_id":5441},"evidence":"归属英雄：食人魔魔法师"}
+{"id":"ownership-073","type":"ownership","question":"「闪烁」是哪个英雄的技能？","answer":"痛苦女王","gold_doc":{"doc_type":"ability","source_id":5174},"evidence":"归属英雄：痛苦女王"}
+{"id":"ownership-074","type":"ownership","question":"「冰」是哪个英雄的技能？","answer":"祈求者","gold_doc":{"doc_type":"ability","source_id":5370},"evidence":"归属英雄：祈求者"}
+{"id":"ownership-075","type":"ownership","question":"「捕捞」是哪个英雄的技能？","answer":"娜迦海妖","gold_doc":{"doc_type":"ability","source_id":1008},"evidence":"归属英雄：娜迦海妖"}
+{"id":"ownership-076","type":"ownership","question":"「责难」是哪个英雄的技能？","answer":"殁境神蚀者","gold_doc":{"doc_type":"ability","source_id":1760},"evidence":"归属英雄：殁境神蚀者"}
+{"id":"ownership-077","type":"ownership","question":"「连击」是哪个英雄的技能？","answer":"编织者","gold_doc":{"doc_type":"ability","source_id":5291},"evidence":"归属英雄：编织者"}
+{"id":"ownership-078","type":"ownership","question":"「凋零迷雾」是哪个英雄的技能？","answer":"亚巴顿","gold_doc":{"doc_type":"ability","source_id":1481},"evidence":"归属英雄：亚巴顿"}
+{"id":"ownership-079","type":"ownership","question":"「灵体游魂回归」是哪个英雄的技能？","answer":"上古巨神","gold_doc":{"doc_type":"ability","source_id":5592},"evidence":"归属英雄：上古巨神"}
+{"id":"ownership-080","type":"ownership","question":"「突袭」是哪个英雄的技能？","answer":"斯拉克","gold_doc":{"doc_type":"ability","source_id":5495},"evidence":"归属英雄：斯拉克"}
+{"id":"mechanism-081","type":"mechanism","question":"「锁闭来源」指的是什么？","answer":"所有来源的妖术、恐惧都具有锁闭效果。","gold_doc":{"doc_type":"mechanism","source_id":136},"evidence":"所有来源的妖术、恐惧都具有锁闭效果。"}
+{"id":"mechanism-082","type":"mechanism","question":"「百分比最大魔法值」指的是什么？","answer":"百分比最大魔法值是以该单位当前最大魔法值为底，乘以一个百分比系数并添加至最大魔法值中。","gold_doc":{"doc_type":"mechanism","source_id":9},"evidence":"百分比最大魔法值是以该单位当前最大魔法值为底，乘以一个百分比系数并添加至最大魔法值中。"}
+{"id":"mechanism-083","type":"mechanism","question":"「幻象特殊攻击伤害调整」指的是什么？","answer":"幻象攻击特定目标时会百分比调整攻击伤害。","gold_doc":{"doc_type":"mechanism","source_id":11},"evidence":"幻象攻击特定目标时会百分比调整攻击伤害。"}
+{"id":"mechanism-084","type":"mechanism","question":"「定值百分比最大生命值」指的是什么？","answer":"定值百分比最大生命值是一类比较特殊的定值最大生命值，它的数值取决于效果产生时目标的最大生命值，但不会随最大生命值的改变而实时发生变化。","gold_doc":{"doc_type":"mechanism","source_id":7},"evidence":"定值百分比最大生命值是一类比较特殊的定值最大生命值，它的数值取决于效果产生时目标的最大生命值，但不会随最大生命值的改变而实时发生变化。"}
+{"id":"mechanism-085","type":"mechanism","question":"「治疗调整」指的是什么？","answer":"治疗调整是一种对治疗基础值进行调整的属性。","gold_doc":{"doc_type":"mechanism","source_id":21},"evidence":"治疗调整是一种对治疗基础值进行调整的属性。"}
+{"id":"mechanism-086","type":"mechanism","question":"「移动和位移」指的是什么？","answer":"通过一些指令我们可以使一些单位进行移动，如右键前往指定地点，M键跟随指定目标等。","gold_doc":{"doc_type":"mechanism","source_id":20},"evidence":"通过一些指令我们可以使一些单位进行移动，如右键前往指定地点，M键跟随指定目标等。"}
+{"id":"mechanism-087","type":"mechanism","question":"「猴子猴孙」指的是什么？","answer":"猴子猴孙的克隆体继承本体的大部分本体模型相关的属性，包括：本体所有的属性、基础攻击力、基础攻击间隔、天赋等。","gold_doc":{"doc_type":"mechanism","source_id":71},"evidence":"猴子猴孙的克隆体继承本体的大部分本体模型相关的属性，包括：本体所有的属性、基础攻击力、基础攻击间隔、天赋等。"}
+{"id":"mechanism-088","type":"mechanism","question":"「生命回复调整」指的是什么？","answer":"生命回复是一大类生命获取形式，它包括治疗、生命恢复、攻击吸血与技能吸血。","gold_doc":{"doc_type":"mechanism","source_id":120},"evidence":"生命回复是一大类生命获取形式，它包括治疗、生命恢复、攻击吸血与技能吸血。"}
+{"id":"mechanism-089","type":"mechanism","question":"「模型体积」指的是什么？","answer":"模型体积即一个单位的模型大小。","gold_doc":{"doc_type":"mechanism","source_id":37},"evidence":"模型体积即一个单位的模型大小。"}
+{"id":"mechanism-090","type":"mechanism","question":"「矢量目标」指的是什么？","answer":"范围目标技能需要首先选择矢量的起点，按下技能按钮之后，点击鼠标左键并且不松手，会在目标地点产生一个矢量指示器，显示技能影响的范围。","gold_doc":{"doc_type":"mechanism","source_id":58},"evidence":"范围目标技能需要首先选择矢量的起点，按下技能按钮之后，点击鼠标左键并且不松手，会在目标地点产生一个矢量指示器，显示技能影响的范围。"}
+{"id":"mechanism-091","type":"mechanism","question":"「无视技能吸血」指的是什么？","answer":"无视技能吸血标记会使伤害无法触发技能吸血。","gold_doc":{"doc_type":"mechanism","source_id":88},"evidence":"无视技能吸血标记会使伤害无法触发技能吸血。"}
+{"id":"mechanism-092","type":"mechanism","question":"「额外属性」指的是什么？","answer":"额外属性以绿字（增加）、红字（减少）的形式表现在面板上。","gold_doc":{"doc_type":"mechanism","source_id":3},"evidence":"额外属性以绿字（增加）、红字（减少）的形式表现在面板上。"}
+{"id":"mechanism-093","type":"mechanism","question":"「河道」指的是什么？","answer":"河道是分开天辉和夜魇的一长片水域。","gold_doc":{"doc_type":"mechanism","source_id":55},"evidence":"河道是分开天辉和夜魇的一长片水域。"}
+{"id":"mechanism-094","type":"mechanism","question":"「无视物理伤害格挡」指的是什么？","answer":"无视物理伤害格挡标记会使物理伤害无法触发物理伤害格挡。","gold_doc":{"doc_type":"mechanism","source_id":88},"evidence":"无视物理伤害格挡标记会使物理伤害无法触发物理伤害格挡。"}
+{"id":"mechanism-095","type":"mechanism","question":"「测试前准备」指的是什么？","answer":"想要获得完全的测试体验，请在测试前按以下步骤准备。","gold_doc":{"doc_type":"mechanism","source_id":25},"evidence":"想要获得完全的测试体验，请在测试前按以下步骤准备。"}
+{"id":"mechanism-096","type":"mechanism","question":"「击杀英雄」指的是什么？","answer":"击杀英雄会为击杀者提供金钱，提供的金钱分为**击杀金钱**和**助攻金钱**。","gold_doc":{"doc_type":"mechanism","source_id":68},"evidence":"击杀英雄会为击杀者提供金钱，提供的金钱分为**击杀金钱**和**助攻金钱**。"}
+{"id":"mechanism-097","type":"mechanism","question":"「百分比额外移动速度」指的是什么？","answer":"百分比额外移动速度是以基础移动速度为底，乘以一个百分比修正系数并添加到移动速度中。","gold_doc":{"doc_type":"mechanism","source_id":20},"evidence":"百分比额外移动速度是以基础移动速度为底，乘以一个百分比修正系数并添加到移动速度中。"}
+{"id":"mechanism-098","type":"mechanism","question":"「绝对移速上限设定」指的是什么？","answer":"通常情况下，当结算至此时移速大于绝对移速上限，则移速会被设定为绝对移速上限。","gold_doc":{"doc_type":"mechanism","source_id":20},"evidence":"通常情况下，当结算至此时移速大于绝对移速上限，则移速会被设定为绝对移速上限。"}
+{"id":"mechanism-099","type":"mechanism","question":"「攻击吸血」指的是什么？","answer":"此小类本质是伤害事件的一种，由攻击伤害事件产生。","gold_doc":{"doc_type":"mechanism","source_id":50},"evidence":"此小类本质是伤害事件的一种，由攻击伤害事件产生。"}
+{"id":"mechanism-100","type":"mechanism","question":"「强制技能增强」指的是什么？","answer":"强制技能增强标记会使攻击伤害可以触发技能增强。","gold_doc":{"doc_type":"mechanism","source_id":88},"evidence":"强制技能增强标记会使攻击伤害可以触发技能增强。"}
+{"id":"mechanism-101","type":"mechanism","question":"「隐藏来源」指的是什么？","answer":"重生的英雄在不执行任何指令时处于隐藏状态。","gold_doc":{"doc_type":"mechanism","source_id":142},"evidence":"重生的英雄在不执行任何指令时处于隐藏状态。"}
+{"id":"mechanism-102","type":"mechanism","question":"「不反弹标记」指的是什么？","answer":"不反弹标记会使伤害不触发伤害反弹和伤害共享。","gold_doc":{"doc_type":"mechanism","source_id":88},"evidence":"不反弹标记会使伤害不触发伤害反弹和伤害共享。"}
+{"id":"mechanism-103","type":"mechanism","question":"「目标致命一击」指的是什么？","answer":"目标致命一击与致命一击类似，也同样会将攻击伤害以百分比调整并且独立计算，但拥有该效果的单位在受到来自特定攻击时才会触发致命一击。","gold_doc":{"doc_type":"mechanism","source_id":11},"evidence":"目标致命一击与致命一击类似，也同样会将攻击伤害以百分比调整并且独立计算，但拥有该效果的单位在受到来自特定攻击时才会触发致命一击。"}
+{"id":"mechanism-104","type":"mechanism","question":"「修饰器特性函数」指的是什么？","answer":"与修饰器状态函数不同，修饰器特性函数的变量类型可以为数字(float, int)、字符串(string)等。","gold_doc":{"doc_type":"mechanism","source_id":101},"evidence":"与修饰器状态函数不同，修饰器特性函数的变量类型可以为数字(float, int)、字符串(string)等。"}
+{"id":"mechanism-105","type":"mechanism","question":"「朝向固定」指的是什么？","answer":"朝向固定可以通过将转身速率设定为0来实现。","gold_doc":{"doc_type":"mechanism","source_id":100},"evidence":"朝向固定可以通过将转身速率设定为0来实现。"}
+{"id":"mechanism-106","type":"mechanism","question":"「无视无敌」指的是什么？","answer":"无视无敌标记会使伤害可以对无敌单位生效。","gold_doc":{"doc_type":"mechanism","source_id":88},"evidence":"无视无敌标记会使伤害可以对无敌单位生效。"}
+{"id":"mechanism-107","type":"mechanism","question":"「摧毁侦察守卫」指的是什么？","answer":"摧毁侦察守卫会提供100的基础金钱奖励，此外游戏时长每增加15秒都会额外增加1金钱奖励。","gold_doc":{"doc_type":"mechanism","source_id":68},"evidence":"摧毁侦察守卫会提供100的基础金钱奖励，此外游戏时长每增加15秒都会额外增加1金钱奖励。"}
+{"id":"mechanism-108","type":"mechanism","question":"「特殊驱散」指的是什么？","answer":"特殊驱散是非标准的驱散效果，它们会与一般的驱散存在差异，或仅在某些特殊情况才会发生。","gold_doc":{"doc_type":"mechanism","source_id":81},"evidence":"特殊驱散是非标准的驱散效果，它们会与一般的驱散存在差异，或仅在某些特殊情况才会发生。"}
+{"id":"mechanism-109","type":"mechanism","question":"「无视护甲」指的是什么？","answer":"无视护甲标记会使物理伤害无视全部护甲。","gold_doc":{"doc_type":"mechanism","source_id":88},"evidence":"无视护甲标记会使物理伤害无视全部护甲。"}
+{"id":"mechanism-110","type":"mechanism","question":"「治疗」指的是什么？","answer":"治疗是使一个单位增加当前生命值的方法之一。","gold_doc":{"doc_type":"mechanism","source_id":21},"evidence":"治疗是使一个单位增加当前生命值的方法之一。"}
+{"id":"ood-111","type":"ood","question":"7.41 版本胜率最高的英雄是谁？","answer":"","gold_doc":null,"evidence":"语料中不存在该信息，正确行为是拒答","expect_abstain":true}
+{"id":"ood-112","type":"ood","question":"这个版本哪个装备最贵？","answer":"","gold_doc":null,"evidence":"语料中不存在该信息，正确行为是拒答","expect_abstain":true}
+{"id":"ood-113","type":"ood","question":"昨天 TI 决赛的比分是多少？","answer":"","gold_doc":null,"evidence":"语料中不存在该信息，正确行为是拒答","expect_abstain":true}
+{"id":"ood-114","type":"ood","question":"国服现在有多少在线玩家？","answer":"","gold_doc":null,"evidence":"语料中不存在该信息，正确行为是拒答","expect_abstain":true}
+{"id":"ood-115","type":"ood","question":"下个版本会加强哪个英雄？","answer":"","gold_doc":null,"evidence":"语料中不存在该信息，正确行为是拒答","expect_abstain":true}
