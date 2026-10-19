@@ -117,7 +117,9 @@ llama-server -m ~/models/Qwen3.5-9B-Q4_K_M.gguf -c 8192 -np 2 --port 8081
 
 ### 向量化（8080）
 
-**query 和文档的前缀不对称**，这是最容易踩的坑：
+**query 和文档的前缀不对称**，这是模型侧最容易踩的坑。下面记录的是
+Qwen3-Embedding 的推荐用法，**当前仓库的运行代码还没有拼接 query 前缀**，
+不能把这段示例当成已落地实现：
 
 ```python
 # query：必须加 Instruct 前缀
@@ -208,7 +210,14 @@ RAG 场景建议默认关掉：开思考时同一个问题从 3 秒变成 40 秒
 
 ### 6.3 embedding 的前缀不对称
 
-query 端要带 `Instruct: {任务描述}\nQuery:{问题}`，文档端**不加前缀**。两边都加或都不加都会掉点。另外 pooling 必须是 `last`（last-token pooling），不是 `mean`。
+按模型卡和官方示例，query 端应带
+`Instruct: {任务描述}\nQuery:{问题}`，文档端**不加前缀**。两边都加或都不加都可能掉点。
+另外 pooling 必须是 `last`（last-token pooling），不是 `mean`。
+
+> 仓库现状：`src/lib/rag.mjs` 的 `embed(question)` 直接把原问题送入
+> `/v1/embeddings`，没有拼接 Instruct 前缀。这是一个待做 A/B 的优化项，
+> 不是当前已实现能力；修改后需要用 `npm run eval` 和 `npm run eval:answer`
+> 对照质量与延迟。
 
 ### 6.4 M1 的吞吐天花板在内存带宽，不在配置
 

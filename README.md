@@ -1,186 +1,393 @@
-# dota2_wiki_rag
+# Dota 2 Wiki RAG
 
-刀塔百科（wiki.dota2.com.cn）的本地 RAG：pgvector 向量检索 + Qwen3 重排 + 本地 9B 流式问答。
+English | [简体中文](README.zh-CN.md)
 
-数据集已经建好（`data/dota2-wiki.json` → `data/chunks.json` → PostgreSQL），
-本仓库只负责索引、检索与问答。采集与归一化脚本已移出仓库（见 git 历史 `4010d3f`）。
+A local-first, evaluation-driven RAG system over the Chinese Dota 2 wiki
+(`wiki.dota2.com.cn`). It combines entity-aware chunking, Qwen3 embeddings,
+PostgreSQL + pgvector, an optional Qwen3 cross-encoder reranker, and streaming
+answers from a local Qwen3.5-9B model.
 
-## 快速开始
+This is a portfolio/reference implementation, not a production service. It is
+designed to make the retrieval trade-offs visible: what is indexed, what is
+measured, what is intentionally left out, and where the current pipeline still
+fails.
+
+## At a glance
+
+| Item | Value |
+| --- | --- |
+| Indexable document entities | 1,120 |
+| Raw entities | 128 heroes, 852 abilities, 157 mechanism articles |
+| Retrieval chunks | 1,718 |
+| Searchable after the runtime token filter | 1,652 chunks (`token_count >= 60`) |
+| Structured metadata | 973 tags, 288 embedded forms, 139 categories |
+| Embedding | Qwen3-Embedding-0.6B, 1,024 dimensions, 2,048-token context |
+| Vector store | PostgreSQL + pgvector, HNSW cosine index |
+| Reranker | Qwen3-Reranker-0.6B, optional |
+| Generator | Qwen3.5-9B, local llama.cpp server, streamed over SSE |
+| Retrieval evaluation | 18 handwritten questions |
+| Answer evaluation | 115 records: 110 grounded questions + 5 out-of-domain questions |
+
+Recorded on the target Apple M1 / 16 GB machine:
+
+| Mode | Retrieval quality |
+| --- | --- |
+| Dense only | Hit@1 83%, Hit@5 94% |
+| Dense + reranker | Hit@1 94%, Hit@5 100%, MRR 0.972 |
+
+The optional reranker is accurate but slow on this machine: roughly 20-50
+seconds for 20 candidates. The web UI therefore defaults to fast dense
+retrieval, with reranking behind an explicit toggle.
+
+## What makes this project worth reading
+
+- **Entity-aware chunking instead of fixed-size splitting.** Heroes and
+  abilities are usually one entity per chunk; long mechanism articles are split
+  at Markdown heading boundaries and packed toward a token target.
+- **Exact token accounting.** Chunk boundaries are checked with the embedding
+  server's own tokenizer. A chunk that exceeds the 2,048-token hard limit causes
+  the pipeline to fail instead of being silently dropped.
+- **Upstream redirect stubs are handled as aliases.** Seventeen mechanism
+  articles contain only a "see another page" sentence. They are excluded from
+  the index, and their names are added to the target page's chunk header.
+- **Idempotent ingestion.** Stable chunk keys plus content hashes make
+  re-ingestion incremental; unchanged chunks are not embedded again.
+- **Quality/latency is an explicit product choice.** The same retrieval path can
+  run dense-only or add a cross-encoder reranker.
+- **Two levels of evaluation.** Retrieval is measured with Hit@k and MRR;
+  end-to-end answers are checked for context recall, answer correctness,
+  citations, abstention, and numeric support.
+
+## Architecture
+
+```text
+Offline indexing
+================
+data/dota2-wiki.json
+        │
+        │  npm run chunk
+        │  - entity-level assembly
+        │  - heading-aware splitting
+        │  - exact /tokenize counting
+        ▼
+data/chunks.json  (1,718 chunks)
+        │
+        │  npm run ingest
+        │  - md5(content) incremental check
+        │  - Qwen3-Embedding, 1,024 dimensions
+        │  - stable chunk_key upsert
+        ▼
+PostgreSQL: wiki_chunks + pgvector HNSW (cosine)
+
+Online question answering
+=========================
+question
+   │
+   ├─ embed query (Qwen3-Embedding)
+   ├─ dense recall: top 20 by cosine distance
+   ├─ optional cross-encoder rerank of those 20
+   ├─ select up to 4 chunks within a 2,400-token budget
+   ├─ build a context-only prompt
+   └─ stream answer + source cards over SSE
+```
+
+## Requirements
+
+- Node.js 20 or newer.
+- PostgreSQL 18 with pgvector 0.8.7.
+- llama.cpp with three local model servers:
+
+| Port | Model | Role | Context |
+| --- | --- | --- | --- |
+| 8080 | Qwen3-Embedding-0.6B-Q8_0 | Embeddings and tokenization | 2,048 tokens |
+| 8081 | Qwen3.5-9B-Q4_K_M | Answer generation | 8,192 tokens (`-np 2`) |
+| 8082 | Qwen3-Reranker-0.6B-Q6_K | Cross-encoder reranking | 4,096 tokens |
+
+The data export and model files are not included in this repository. `data/` is
+git-ignored; the checked-in evaluation scripts assume a local
+`data/dota2-wiki.json` export exists. The crawler and upstream normalization
+code are not part of this repository.
+
+See [docs/llama-cpp-stack.md](docs/llama-cpp-stack.md) for model conversion,
+launchd setup, and llama.cpp pitfalls.
+
+## Quick start
 
 ```bash
 npm install
-npm run chunk       # 重新切块 → data/chunks.json（一般不需要跑）
-npm run ingest      # 向量化入库，按内容哈希增量
-npm run serve       # 对话页面 http://127.0.0.1:8787
-```
 
-依赖三个本地服务（launchd 托管，plist 在 `~/Library/LaunchAgents/`）：
+# Start PostgreSQL and the three llama.cpp servers, then verify all four ports.
+./scripts/service.sh check
 
-| 端口 | 模型 | 用途 | 约束 |
-| --- | --- | --- | --- |
-| 8080 | Qwen3-Embedding-0.6B-Q8_0 | 向量化，1024 维 | 上下文 2048 token 硬限 |
-| 8081 | Qwen3.5-9B-Q4_K_M | 生成 | 8192 上下文，`-np 2` → 每请求 4096 |
-| 8082 | Qwen3-Reranker-0.6B-Q6_K | 重排（`/v1/rerank`） | 4096 |
-| 5432 | PostgreSQL 18 + pgvector | 存储 | — |
+# Rebuild chunks only when the source export or chunking logic changes.
+# Requires the embedding server because /tokenize is used for exact counts.
+npm run chunk
 
-## 对话页面
+# Embed chunks and write them to PostgreSQL. Safe to rerun.
+npm run ingest
 
-```bash
+# Start the web app at http://127.0.0.1:8787
 npm run serve
-# → http://127.0.0.1:8787
 ```
 
-或者用管理脚本：
+Useful service commands:
 
 ```bash
-./scripts/service.sh start     # 后台启动，等 /health 通过再返回
-./scripts/service.sh status    # 进程 + 健康检查 + 最近日志
-./scripts/service.sh logs      # 实时日志
+./scripts/service.sh start
+./scripts/service.sh status
+./scripts/service.sh logs
 ./scripts/service.sh restart
 ./scripts/service.sh stop
-./scripts/service.sh run       # 前台运行，Ctrl+C 退出
-./scripts/service.sh check     # 只检查 5432 / 8080 / 8081 / 8082
+PORT=9000 ./scripts/service.sh start
 ```
 
-换端口：`PORT=9000 ./scripts/service.sh start`。日志写在 `logs/server.log`。
+CLI examples:
 
-单进程 HTTP 服务，无前端框架。`POST /api/ask` 返回 SSE 流：
-`status`（阶段进度）→ `sources`（检索到的块）→ 若干 `delta`（增量文本）→ `done`。
-
-页面右下角的「精排」开关对应两种模式，实测差异很大：
-
-| 模式 | 来源出现 | 首字 | 典型总耗时 | 检索 Hit@1 |
-| --- | --- | --- | --- | --- |
-| 快速（默认，纯向量） | **0.5s** | ~10s | 20–40s | 78% |
-| 精排（+ Reranker） | 34s | 49s | 78s | **94%** |
-
-精排在这台 M1 上要 20–50 秒（20 个候选、约 13K token），交互场景不划算，所以默认关闭。
-生成侧约 10 tok/s，靠流式输出掩盖等待。
-
-## 检索链路
-
-```
-data/dota2-wiki.json
-    │  npm run chunk     按语义边界切块，用 :8080 的 /tokenize 精确计数
-    ▼
-data/chunks.json         1718 块
-    │  npm run ingest    Qwen3-Embedding（1024 维）→ pgvector
-    ▼
-PostgreSQL  dota2_wiki.wiki_chunks
-    │  向量召回 20 → 重排 → 取 4 块（≤2400 token）
-    ▼
-Qwen3.5-9B 流式回答 + 来源标注
+```bash
+node src/search.mjs "哪些技能不能被驱散"
+node src/ask.mjs "弱驱散和强驱散有什么区别？"
+RERANK=1 node src/ask.mjs "弱驱散和强驱散有什么区别？"
 ```
 
-## 切块策略
+## Configuration
 
-不按字数硬切，按语义单元切，再用**服务端自己的分词器**逐块校验 token 数：
-
-| 类型 | 策略 | 块数 | token 范围 |
-| --- | --- | --- | --- |
-| 英雄 | 一英雄一块（超长的按段落再拆） | 129 | 22–1064 |
-| 技能 | 一技能一块（超长的按段落再拆） | 1040 | 21–1674 |
-| 机制文 | 按 h2/h3 切语义小节 → 合并 <150 字符的残片 → 贪心合并到 ~1000 token | 549 | 59–1633 |
-| 合计 | | **1718** | 上限 1674 |
-
-目标 1000 token、硬上限 1800（给 2048 留 248 余量）。
-**超限的块会让 `chunk` 直接报错退出，不会静默丢弃**——因为 embedding 服务对超限输入返回的是
-HTTP 400 而非截断，静默跳过会让内容从索引里凭空消失且无人察觉。
-
-按 h2-h4 切分会切出大量「标题 + 一句话」的引导小节，这类碎片用词密集、余弦相似度天然偏高，
-会把真正有内容的块挤出前面，所以打包前先把不足 150 字符的片段并入下一节。
-
-### 跳转桩
-
-157 篇机制文里有 **17 篇是跳转桩**——正文只剩一句「请查询[X]页面」，本身没有内容：
-
-| 跳转桩 | 指向 |
-| --- | --- |
-| 弱驱散、强驱散、死亡驱散、减益免疫驱散 | 驱散 |
-| 必中、克敌机先、致盲、落空、闪避 | 命中 |
-| 模型体积、选择体积、边界体积、碰撞体积 | 单位体积 |
-| 强制移动、蛊惑 | 恐惧 |
-| 真实视域 | 隐身 |
-| 伤害传递 | 攻击分裂 / 攻击溅射 / 伤害结算流程 |
-
-它们不该被索引：正文只有 6 个字符，却因为原样命中查询词而排在真内容前面。
-数据里已把它们记进 `mechanisms[].redirect_to`，切块时跳过，并把名字作为别名写进目标页的块头
-（`机制：驱散（站内跳转页：弱驱散、强驱散…）`），查「弱驱散」会直接落到「驱散」的正文上。
-
-### 增量入库
-
-每个块带 `content_hash`（文本的 md5）。入库只重算「key 存在但哈希不一致」的块，
-并清理重切后不再存在的旧 key。改一次切块策略通常只需重算几百块，而不是全部 1718 块。
-
-## 表结构
-
-`src/schema.sql` 建表 `wiki_chunks`，关键字段：`chunk_key`（`doc_type:source_id:part`，重跑幂等）、
-`doc_type`、`text`、`token_count`、`content_hash`、`metadata jsonb`、`embedding vector(1024)`。
-
-索引：HNSW（余弦）、`(doc_type, source_id)`、metadata GIN。共约 18 MB。
-
-trigram 词面索引曾经建过（15 MB），但实测 `idx_scan = 0`、且当前语料下向量召回已达 100%，
-已移除。将来做 RRF 混合检索时重建即可（`CREATE EXTENSION pg_trgm` + GIN 索引，秒级）。
-
-## 评测
-
-| 评测 | 规模 | 指标 |
+| Variable | Default | Purpose |
 | --- | --- | --- |
-| `npm run eval` | 18 个手写问题 | 纯向量 Hit@1 83% / Hit@5 94%；+重排 Hit@1 **94%** / Hit@5 **100%** / MRR 0.972 |
-| `npm run eval:answer` | 115 条自动生成（110 条可判分 + 5 条拒答） | 召回@N、MRR、答案正确、引用命中、拒答正确、数字幻觉 |
+| `DATABASE_URL` | `postgresql://messiah@127.0.0.1:5432/dota2_wiki` | PostgreSQL connection |
+| `DOTA2_EMBED_URL` | `http://127.0.0.1:8080` | Embedding and tokenization server |
+| `DOTA2_CHAT_URL` | `http://127.0.0.1:8081` | Generation server |
+| `DOTA2_RERANK_URL` | `http://127.0.0.1:8082` | Reranker server |
+| `RECALL_K` | `20` | Dense candidates retrieved per question |
+| `TOP_N` | `4` | Maximum chunks placed in the prompt |
+| `CONTEXT_BUDGET` | `2400` | Maximum retrieved-context tokens |
+| `MIN_TOKENS` | `60` | Ignore very short chunks during retrieval |
+| `PORT` | `8787` | Web server port |
+| `HOST` | `127.0.0.1` | Web server bind address |
+| `DOTA2_INGEST_CONCURRENCY` | `6` | Concurrent embedding requests during ingestion |
+| `RERANK` | unset | CLI-only switch; use `RERANK=1` to rerank |
 
-评测集由 `npm run gen:eval` 从数据集生成，金标是「文档 + 答案原文」而不是 chunk_key（重切不会失效），并强制校验
-「标准答案能在金标块里逐字找到」——不通过就丢弃，避免造出语料里没有的题。
+The web request uses `"rerank": true`; the CLI uses `RERANK=1`.
 
-## 数据集
+## HTTP API
 
-| 类型 | 数量 |
+### `POST /api/ask`
+
+```bash
+curl -N http://127.0.0.1:8787/api/ask \
+  -H 'Content-Type: application/json' \
+  -d '{"question":"弱驱散和强驱散有什么区别？","rerank":false}'
+```
+
+The response is `text/event-stream` with these event types:
+
+| Event | Payload |
 | --- | --- |
-| 英雄 | 128（127 个可用英雄 + 傀儡目标） |
-| 技能 | 852 |
-| 机制文章 | 157 |
-| 机制标签 | 973 |
-| 内嵌表单 | 288 |
-| 分类节点 / 首页栏目 | 139 / 9 |
+| `status` | Human-readable progress stage |
+| `sources` | Selected chunks, retrieval timing, context token count |
+| `delta` | Incremental answer text |
+| `done` | End-to-end elapsed time and model usage |
+| `error` | Failure message or cancellation |
 
-正文合计约 90 万字符。`data/dota2-wiki.json` 为扁平数组 + 外键：
+Questions are limited to 500 characters. The server binds to loopback by
+default and has no authentication or rate limiting.
 
+### `GET /health`
+
+Returns the process configuration. This is a liveness check only; it does not
+verify PostgreSQL or any model server.
+
+## Data pipeline
+
+### Chunking strategy
+
+| Document type | Strategy | Chunks | Token range |
+| --- | --- | --- | --- |
+| Hero | One hero per chunk; split only when too long | 129 | 22-1,064 |
+| Ability | One ability per chunk; split only when too long | 1,040 | 21-1,674 |
+| Mechanism | Split at h2-h4 headings, merge tiny sections, greedily pack | 549 | 59-1,633 |
+| **Total** | | **1,718** | **21-1,674** |
+
+Mechanism articles are packed toward 1,000 tokens, with a soft packing ceiling
+of 1,800 and the embedding server's 2,048-token hard limit. Every final chunk is
+counted with the server's `/tokenize` endpoint. Overflow is an error, not a
+silent truncation.
+
+Two details matter more than the headline numbers:
+
+- Sections shorter than 150 characters are merged before packing. Heading-only
+  fragments are lexically dense and tend to dominate cosine similarity.
+- A chunk header is prepended before embedding so a section carries its entity
+  and domain context. Redirect-page names are included as aliases in the target
+  chunk header.
+
+The runtime `MIN_TOKENS=60` filter removes 66 tiny chunks from retrieval. They
+remain in the database for auditability and possible future re-chunking.
+
+### Incremental ingestion
+
+Each chunk has:
+
+- `chunk_key = doc_type:source_id:chunk_index`, stable across ordinary reruns.
+- `content_hash = md5(text)`, used to skip unchanged chunks.
+- `metadata`, including source IDs, tags, aliases, and part numbers; the source
+  URL is stored separately for citation.
+
+`npm run ingest` only re-embeds chunks whose content changed, removes keys that
+no longer exist in `chunks.json`, and verifies that every embedding has 1,024
+dimensions. Use `-- --force` to re-embed everything or `-- --reset` to truncate
+the table first.
+
+## Storage
+
+The main table is `wiki_chunks`. Important columns:
+
+| Column | Purpose |
+| --- | --- |
+| `chunk_key` | Primary key and idempotency key |
+| `doc_type`, `source_id`, `chunk_index` | Entity and ordering metadata |
+| `title`, `heading`, `url` | Citation and UI display |
+| `text`, `token_count` | Prompt material and budget accounting |
+| `content_hash` | Incremental ingestion |
+| `metadata` | Tags, aliases, parts, and other filters |
+| `embedding vector(1024)` | Dense retrieval vector |
+
+Indexes:
+
+- HNSW with `vector_cosine_ops` for approximate nearest-neighbor search.
+- A composite `(doc_type, source_id)` index for entity lookup.
+- A GIN index on `metadata` for future structured filtering.
+
+At 1,718 rows, PostgreSQL may still choose a sequential scan; the HNSW index is
+configured for growth rather than to claim that an approximate index is
+mandatory at this scale. A trigram index was tried and removed because it had
+zero scans and was not part of a hybrid retrieval path.
+
+## Evaluation
+
+### Retrieval evaluation
+
+```bash
+npm run eval
+npm run eval -- -v
 ```
-heroes.ability_ids  ──► abilities.id
-abilities.hero_ids  ──► heroes.hero_id
-abilities.tags / details / mechanics[].tag / effects[].tags ──► tags.id
-mechanisms.form_ids ──► forms.id
+
+`eval/questions.json` contains 18 handwritten questions. A result is a hit when
+the expected `(doc_type, title)` pair appears in the retrieved set.
+
+| Pipeline | Hit@1 | Hit@5 | MRR |
+| --- | --- | --- | --- |
+| Dense only | 83% | 94% | not recorded here |
+| Dense + reranker | 94% | 100% | 0.972 |
+
+### Answer evaluation
+
+```bash
+npm run eval:answer
+npm run eval:answer -- --limit 20
+npm run eval:answer -- --types cast,ood
 ```
 
-每篇文档都带 `url`，可直接用作引用来源。
+The 115-record set contains 30 casting-value questions, 35 special-value
+questions, 15 ownership questions, 30 mechanism questions, and 5
+out-of-domain questions. The script reports:
 
-## 已知数据缺陷（上游问题）
+- context recall of the gold document;
+- MRR of the gold document in the reranked list;
+- normalized answer correctness;
+- citation hit rate;
+- abstention correctness for out-of-domain questions;
+- a cheap numeric-support hallucination check.
 
-- `傀儡目标`（hero_id=127）没有技能，也没有传记。
-- 3 个技能的 `name_zh` 被上游截断到 20 字符：`special_bonus_unique_visage_7`、
-  `special_bonus_unique_visage_1`、`special_bonus_unique_faceless_void_4`。
-- 标签 id `454`、`644`、`1225` 被引用但不在 973 条表内，输出中保留为 `{"id": 454, "name": null}`。
-- 护甲公式在原文里是一张 PNG，文本侧没有可提取内容（问答时只能给定性结论）。
-- 冰川护体是水晶室女的魔晶技能，但 wiki 未标注、`shard_description` 为空、
-  Valve datafeed 的 `ability_has_shard` 也是 false。
-- 全库 148 张图片的内容未入库。
+The evaluation set is generated from the dataset and must pass a grounding
+check: the expected answer has to appear verbatim in the gold chunk. This avoids
+questions whose answer is absent from the corpus, but it is not a substitute for
+human adjudication.
 
-## 目录结构
+These numbers come from the author's local M1 machine. They are useful as an
+engineering baseline, not as a general Dota QA benchmark.
 
-```
+## Design decisions
+
+| Decision | Why |
+| --- | --- |
+| Local models and local PostgreSQL | No external API dependency; inspectable latency and cost |
+| Structured export instead of raw HTML parsing | The upstream export already resolves navigation, placeholders, and forms |
+| Entity-aware chunks | Dota answers are usually about one hero, ability, or mechanism; fixed windows break those units |
+| Dense retrieval first | The corpus is small, domain-specific, and dense recall is already strong |
+| Optional reranker | It improves precision, but is too slow to be the default on this hardware |
+| Fail on token overflow | Silent truncation makes content disappear from the index without a visible error |
+| PostgreSQL + pgvector | One dependency for metadata, text, and vectors; sufficient for a single small corpus |
+
+## Known limitations
+
+- Dense retrieval only; there is no BM25/trigram hybrid branch or RRF fusion.
+- No query rewriting, HyDE, multi-query retrieval, MMR, per-document cap, or
+  neighbour expansion.
+- No score threshold or adaptive top-k; the fixed 4-chunk/2,400-token budget can
+  still include noisy chunks.
+- Query-side instruction prefixes recommended by the embedding model are not
+  applied by the current runtime; this is a measurable improvement to test.
+- Images and diagrams are not indexed, including at least one formula that only
+  exists as an image upstream.
+- The reranker is slow and runs only on demand.
+- Citation markers are generated by the model but are not verified claim by
+  claim.
+- `eval:answer` uses substring matching and heuristics, not an LLM judge or
+  entailment model.
+- Ingestion is not atomic; a full rebuild is not zero-downtime.
+- There is no query cache, authentication, rate limiting, or CI.
+- `/health` does not check database or model dependencies.
+
+### Upstream data caveats
+
+These are source-data issues, not retrieval bugs:
+
+- `傀儡目标` (hero ID 127) has no abilities or biography.
+- Three ability Chinese names are truncated upstream:
+  `special_bonus_unique_visage_7`, `special_bonus_unique_visage_1`, and
+  `special_bonus_unique_faceless_void_4`.
+- Tag IDs 454, 644, and 1225 are referenced but missing from the 973-tag table.
+- The armor formula is a PNG in the source page, so the text index can only
+  support qualitative answers about it.
+- Crystal Maiden's `冰川护体` shard relationship is not marked consistently by
+  the wiki/Valve datafeed.
+- Content images are not indexed; the project notes record 148 such images.
+
+The full interview-oriented analysis, including unused RAG features and the
+reasoning behind each omission, is in
+[docs/RAG_INTERVIEW_GUIDE.md](docs/RAG_INTERVIEW_GUIDE.md).
+
+## Repository layout
+
+```text
 src/
-  server.mjs        HTTP + SSE
-  lib/rag.mjs       检索与流式生成
-  lib/paths.mjs     路径常量
-  chunk.mjs         切块
-  ingest.mjs        向量化入库
-  search.mjs        检索 CLI
-  ask.mjs           端到端问答 CLI
-  eval.mjs          检索评测
-  eval-answer.mjs   答案级评测
-  gen-eval.mjs      评测集生成
-  schema.sql        表结构
-public/index.html   对话页面
-scripts/service.sh  服务管理
-eval/               评测集与结果
+  server.mjs         HTTP server and SSE endpoint
+  lib/rag.mjs        retrieval, prompt construction, streaming generation
+  lib/paths.mjs      path constants
+  chunk.mjs          source export to retrieval chunks
+  ingest.mjs         embedding and PostgreSQL ingestion
+  search.mjs         retrieval-only CLI
+  ask.mjs            end-to-end CLI
+  eval.mjs           retrieval evaluation
+  eval-answer.mjs    answer-level evaluation
+  gen-eval.mjs       grounded evaluation-set generation
+  schema.sql         table and index definitions
+public/index.html    minimal chat UI
+scripts/service.sh   process manager and dependency check
+eval/                evaluation sets and generated results
+docs/                deployment notes and RAG interview guide
 ```
+
+## Documentation
+
+- [中文 README](README.zh-CN.md)
+- [RAG 面试准备与取舍说明](docs/RAG_INTERVIEW_GUIDE.md)
+- [Local llama.cpp stack](docs/llama-cpp-stack.md)
+- [Roadmap and TODO](docs/TODO.md)
+
+## Data provenance
+
+The source site is `https://wiki.dota2.com.cn`. The export used here reports game
+version `7.41f` and was generated from the site's structured APIs. Dota 2 and
+related assets belong to Valve; this repository is a technical RAG experiment,
+not an official wiki or game service.
